@@ -7,8 +7,7 @@ import { fileURLToPath } from "node:url"
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..")
 const output = join(root, ".fork-packages")
-const tag = "opentui-0.4.0-koffi-2.16.3"
-const base = `https://github.com/shazhou-ww/opentui/releases/download/${tag}`
+const version = "0.4.0-koffi.2.16.3.1"
 const sources = {
   core: "sha512-vPXBPsfo/mG/WajLHZcgc93Lac8MYOTJt70C75+uHTVuYm2Koe8497B5mBZq8hRvHjrNPgLHlyk8ur+t6jhs6g==",
   react: "sha512-GYEWhESvAw6Nw8HWoIfsFgjx9Jlhb7a2FwrdoB64S2R4wdzPKR08PLL7igbl8E49fgie1U9mJ+ognkfCE6QzWw==",
@@ -53,13 +52,13 @@ for (const [name, integrity] of Object.entries(sources)) {
   const manifestPath = join(packageDirectory, "package.json")
   const manifest = JSON.parse(readFileSync(manifestPath, "utf8"))
   manifest.name = `@opentui/${name}`
-  manifest.version = "0.4.0-koffi.2.16.3"
+  manifest.version = version
   manifest.repository.url = "https://github.com/shazhou-ww/opentui"
   if (name === "core") {
     manifest.optionalDependencies.koffi = "2.16.3"
   } else {
     delete manifest.dependencies["@jitl/opentui-core"]
-    manifest.dependencies["@opentui/core"] = `${base}/opentui-core-0.4.0-koffi.2.16.3.tgz`
+    manifest.peerDependencies["@opentui/core"] = version
     rewriteReact(packageDirectory)
   }
   writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`)

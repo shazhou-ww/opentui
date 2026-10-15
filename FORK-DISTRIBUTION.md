@@ -15,12 +15,16 @@ The packages use `@opentui/core` and `@opentui/react` as their canonical names.
 Core changes only its package name, version, repository URL and Koffi pin.
 All eight original `@jitl/opentui-core-*` platform dependencies remain pinned
 to 0.4.0, so their already-published native binaries are installed normally.
-React's core imports, declarations and dependency are redirected to the same
-fork core archive to ensure exactly one core/Yoga instance, including
+React's core imports and declarations are redirected to a required core peer
+at the exact fork version to ensure exactly one core/Yoga instance, including
 consumers such as `tui-md` that import `@opentui/core`.
 
 Install the two archives from GitHub release
-`opentui-0.4.0-koffi-2.16.3`. The release includes SHA-256 checksums.
+`opentui-0.4.0-koffi-2.16.3-1`. The release includes SHA-256 checksums.
 Do not replace assets or move its tag; issue a new version for future changes.
 Consumers should commit their package-manager lockfile with archive integrity.
 The upstream PR intentionally excludes this downstream packaging branch.
+
+The initial `opentui-0.4.0-koffi-2.16.3` archives are superseded: their URL
+subdependency is blocked by pnpm's default supply-chain policy. Revision 1
+uses a required peer instead, without weakening that policy.
